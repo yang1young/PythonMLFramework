@@ -1,0 +1,6 @@
+*.pyc
+wine.csv
+*.ipynb
+log/
+model/
+data/
