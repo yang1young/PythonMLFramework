@@ -8,40 +8,44 @@ from itertools import product
 import matplotlib.pyplot as plt
 
 
-def modelDump(model,path):
+# dump models into files
+def modelDump(model, path):
     with open(path, 'wb') as f:
         pickle.dump(model, f)
 
+
+# reload trained models
 def modelReload(path):
     with open(path, 'rb') as f:
         model2 = pickle.load(f)
     return model2
 
 
-def plotMargin(dir,index1,index2):
-    csv = pd.read_csv(dir+'train.csv')
+# print models' decision Margin, first choose two most important dimention of data
+def plotMargin(dir, index1, index2):
+    csv = pd.read_csv(dir + 'train.csv')
     csv.columns = range(0, len(csv.columns), 1)
-    X = csv.iloc[:,[index1,index2]]
-    Y = csv.iloc[:,-1]
+    X = csv.iloc[:, [index1, index2]]
+    Y = csv.iloc[:, -1]
     print X.shape
 
-    RandomForest = M.trainRF(X,X,Y,Y, dir)
-    SVM = M.trainSVM(X,X,Y,Y, dir)
-    GBDT = M.trainGBDT(X,X,Y,Y, dir)
-    DecisionTree = M.trainDT(X,X,Y,Y, dir)
+    # temporary is four decision margin
+    RandomForest = M.trainRF(X, X, Y, Y, dir)
+    SVM = M.trainSVM(X, X, Y, Y, dir)
+    GBDT = M.trainGBDT(X, X, Y, Y, dir)
+    DecisionTree = M.trainDT(X, X, Y, Y, dir)
 
     x_min, x_max = X.iloc[:, 0].min() - 1, X.iloc[:, 0].max() + 1
     y_min, y_max = X.iloc[:, 1].min() - 1, X.iloc[:, 1].max() + 1
     xx, yy = np.meshgrid(np.arange(x_min, x_max, 0.1),
                          np.arange(y_min, y_max, 0.1))
-    print xx.shape ,yy.shape
-   # temp  = pd.concat([pd.DataFrame(xx).T,pd.DataFrame(yy).T],axis=1)
+    print xx.shape, yy.shape
     f, axarr = plt.subplots(2, 2, sharex='col', sharey='row', figsize=(10, 8))
     for idx, clf, tt in zip(product([0, 1], [0, 1]),
-                        [RandomForest,SVM, GBDT, DecisionTree],
-                        ['RandomForest', 'SVM(RBF)',
-                         'GBDT', 'DecisionTree']):
-        temp  = pd.DataFrame(np.c_[xx.ravel(), yy.ravel()])
+                            [RandomForest, SVM, GBDT, DecisionTree],
+                            ['RandomForest', 'SVM(RBF)',
+                             'GBDT', 'DecisionTree']):
+        temp = pd.DataFrame(np.c_[xx.ravel(), yy.ravel()])
         Z = clf.predict(temp)
         Z = Z.reshape(xx.shape)
 
@@ -50,4 +54,3 @@ def plotMargin(dir,index1,index2):
         axarr[idx[0], idx[1]].set_title(tt)
 
     plt.show()
-
