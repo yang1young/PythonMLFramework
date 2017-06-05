@@ -1,19 +1,18 @@
 #!/usr/bin/python
 # coding=utf-8
-from sklearn.ensemble import GradientBoostingClassifier
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.metrics import accuracy_score, precision_recall_curve, precision_score, recall_score
 import datetime
 import pandas as pd
-from sklearn.tree import export_graphviz
 import numpy as np
 import sklearn.svm.libsvm as libsvm
 from sklearn import linear_model
-
+from sklearn.tree import export_graphviz
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.metrics import accuracy_score, precision_recall_curve, precision_score, recall_score
 
 # super class
-class models():
+class Models():
     model = None
 
     def __init__(self, name):
@@ -75,7 +74,7 @@ class models():
 
 
 # this is decision tree
-class DecisionTree(models):
+class DecisionTree(Models):
     def build(self, x_train, y_train, path, **parameter):
         self.model = DecisionTreeClassifier(**parameter)
         self._build(x_train, y_train, path)
@@ -88,14 +87,14 @@ class DecisionTree(models):
 
 
 # gradient boosting tree
-class GBDT(models):
+class GBDT(Models):
     def build(self, x_train, y_train, path, **parameter):
         self.model = GradientBoostingClassifier(**parameter)
         self._build(x_train, y_train, path)
 
 
 # randomforest tree
-class RF(models):
+class RF(Models):
     def build(self, x_train, y_train, path, **parameter):
         self.model = RandomForestClassifier(**parameter)
         self._build(x_train, y_train, path)
@@ -115,7 +114,7 @@ class RF(models):
 
 
 # a wrapper for libsvm library
-class SVM(models):
+class SVM(Models):
     def build(self, x_train, y_train, path, **parameter):
         x = x_train.as_matrix()
         x = x.copy(order='C').astype(np.float64)
@@ -165,7 +164,7 @@ class SVM(models):
 
 # lasso model, a wrapper of liblinear
 # L1 normalize logistic regression
-class lasso(models):
+class lasso(Models):
     def build(self, x_train, y_train, path, **parameter):
         self.model = linear_model.LogisticRegression(**parameter)
         self._build(x_train, y_train, path)

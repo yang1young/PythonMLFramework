@@ -3,8 +3,8 @@
 import pandas as pd
 from sklearn.cross_validation import train_test_split
 
-TRAIN_PATH = '/home/yangqiao/pythonProject/Python_ML_Framework/wine.csv'
-TEST_PATH = '/home/yangqiao/pythonProject/Python_ML_Framework/wine.csv'
+TRAIN_PATH = '/home/yangqiao/pythonProject/PythonMLFramework/wine.csv'
+TEST_PATH = '/home/yangqiao/pythonProject/PythonMLFramework/wine.csv'
 # if you want to delete some columns, fill the list with the index
 DELETE_INDEX = []
 # the lable index
@@ -88,7 +88,7 @@ def data_prepare(save_file_path, log_path, sub_sample_time, train_test_split_per
     return x_train, x_test, y_train, y_test
 
 
-dir = '/home/yangqiao/pythonProject/Python_ML_Framework/log/'
+dir = '/home/yangqiao/pythonProject/PythonMLFramework/log/'
 if __name__ == "__main__":
     x_train, x_test, y_train, y_test = data_prepare(None, dir, 0, 0)
     print x_train.shape

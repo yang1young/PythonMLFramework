@@ -1,9 +1,9 @@
 # !/usr/bin/python
 # coding=utf-8
 import pickle
-import TrainModels as M
 import numpy as np
 import pandas as pd
+import train_models as M
 from itertools import product
 import matplotlib.pyplot as plt
 
